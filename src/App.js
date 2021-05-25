@@ -3,6 +3,7 @@ import {Switch, Route} from 'react-router-dom';
 import Navbar from './components/Navbar';
 import About from './views/About';
 import Blog from './views/Blog';
+import CreatePost from './views/CreatePost';
 import Home from './views/Home';
 import PostDetail from './views/PostDetail';
 
@@ -61,6 +62,7 @@ export default class App extends Component {
               <Blog />
             </Route>
             <Route exact path='/blog/:id' render={({ match }) => <PostDetail match={match} />} />
+            <Route exact path='/createpost' render={() => <CreatePost />} />
           </Switch>
         </main>
       </div>

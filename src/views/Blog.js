@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom';
 import Post from '../components/Post';
 
 export default class Blog extends Component {
@@ -25,6 +26,7 @@ export default class Blog extends Component {
         return (
             <div>
                 <h1>Kekambas Blog</h1>
+                <Link to='/createpost'><button className='btn btn-primary'>Create Post</button></Link>
                 {this.state.posts.map((post, index) => <Post post={post} key={index}/>)}
 
             </div>
