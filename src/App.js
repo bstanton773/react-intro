@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import {Switch, Route} from 'react-router-dom';
 import Navbar from './components/Navbar';
 import About from './views/About';
+import Blog from './views/Blog';
 import Home from './views/Home';
+import PostDetail from './views/PostDetail';
 
 export default class App extends Component {
   constructor(){
@@ -16,22 +18,28 @@ export default class App extends Component {
     // console.log('Component is constructed')
   }
 
-  updateName = () => {
-    this.setState(
-      {name: 'Michael Jordan'}
-    )
-  }
+  // componentDidMount(){
+  //   // console.log('Component did mount');
+  //   fetch('https://ergast.com/api/f1/2020/1/driverStandings.json')
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       this.setState(
+  //         {racers: data.MRData.StandingsTable.StandingsLists[0].DriverStandings}
+  //       )
+  //     })
+  // }
 
-  componentDidMount(){
-    // console.log('Component did mount');
-    fetch('https://ergast.com/api/f1/2020/1/driverStandings.json')
+  handleSubmit = (e) => {
+    e.preventDefault();
+    let year = e.target.yearInput.value;
+    let round = e.target.roundInput.value;
+    fetch(`https://ergast.com/api/f1/${year}/${round}/driverStandings.json`)
       .then(res => res.json())
       .then(data => {
         this.setState(
           {racers: data.MRData.StandingsTable.StandingsLists[0].DriverStandings}
         )
       })
-
   }
 
 
@@ -44,13 +52,16 @@ export default class App extends Component {
         <main className="container">
           <Switch>
             <Route exact path='/'>
-              <Home kevinName={this.state.name} kevinAge={this.state.age} updateName={this.updateName} racers={this.state.racers}/>
+              <Home  name={this.state.name} age={this.state.age} updateName={this.updateName} racers={this.state.racers} handleSubmit={this.handleSubmit}/>
             </Route>
             <Route exact path='/about'>
-              <About />
+              <About name={this.state.name}/>
             </Route>
+            <Route exact path='/blog'>
+              <Blog />
+            </Route>
+            <Route exact path='/blog/:id' render={({ match }) => <PostDetail match={match} />} />
           </Switch>
-          <h1>{this.state.name}</h1>
         </main>
       </div>
     )

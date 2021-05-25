@@ -2,14 +2,32 @@ import React, { Component } from 'react'
 import DriverInfo from '../components/DriverInfo'
 
 export default class Home extends Component {
+    constructor(){
+        super();
+
+        this.state = {
+            name: 'Brian'
+        }
+    }
 
     render() {
         const racers = this.props.racers
         return (
             <div>
-                Hello, {this.props.kevinName}, this is the Home Page 
-                <button className='btn btn-primary' onClick={this.props.updateName}>Update Name</button>
-                <table className='table table-striped'>
+                <form onSubmit={(e) => this.props.handleSubmit(e)}>
+                    <div className='row'>
+                        <div className="mb-3 col-6">
+                            <label htmlFor="yearInput" className="form-label">Year</label>
+                            <input type="text" className="form-control" id="yearInput" placeholder='Year' />
+                        </div>
+                        <div className="mb-3 col-6">
+                            <label htmlFor="roundInput" className="form-label">Round</label>
+                            <input type="text" className="form-control" id="roundInput" placeholder='Round' />
+                        </div>
+                    </div>
+                    <button type="submit" className="btn btn-primary">Submit</button>
+                </form>
+                {racers.length > 0 ? ( <table className='table table-striped'>
                     <thead>
                         <tr>
                             <th>Postition</th>
@@ -22,9 +40,10 @@ export default class Home extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {racers.map((racer, index) => (<DriverInfo racer={racer} index={index} />))}
+                        {racers.map((racer, index) => (<React.Fragment key={index}><DriverInfo racer={racer}/></React.Fragment>))}
                     </tbody>
-                </table>
+                </table>) : (<div></div>)}
+               
             </div>
         )
     }

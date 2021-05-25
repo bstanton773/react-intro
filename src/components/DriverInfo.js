@@ -4,7 +4,7 @@ export default class DriverInfo extends Component {
     render() {
         const racer = this.props.racer
         return (
-            <tr key={this.props.key}>
+            <tr>
                 <td>{racer.position}</td>
                 <td>{racer.points}</td>
                 <td>{racer.wins}</td>
