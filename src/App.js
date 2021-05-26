@@ -15,7 +15,8 @@ export default class App extends Component {
     this.state = {
       name: 'Brian Stanton',
       age: 27,
-      racers: []
+      racers: [],
+      isLoggedIn: false
     }
     // console.log('Component is constructed')
   }
@@ -45,12 +46,33 @@ export default class App extends Component {
   }
 
 
+  handleLogin = (e) => {
+    e.preventDefault();
+    let username = e.target.username.value;
+    let password = e.target.password.value;
+    fetch('http://localhost:5000/api/tokens', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Basic ' + btoa(`${username}:${password}`)
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data)
+      localStorage.setItem('token', data.token)
+      this.setState({
+        isLoggedIn: true
+      })
+    })
+  }
+
+
 
   render() {
     console.log(this.state)
     return (
       <div>
-        <Navbar />
+        <Navbar isLoggedIn={this.state.isLoggedIn} handleLogin={this.handleLogin}/>
         <main className="container">
           <Switch>
             <Route exact path='/'>

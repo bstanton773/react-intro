@@ -40,7 +40,8 @@ export default class UpdatePost extends Component {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': '*/*'
+                'Accept': '*/*',
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
             },
             body: JSON.stringify({
                 'title': postTitle,

@@ -19,12 +19,12 @@ export default class CreatePost extends Component {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': '*/*'
+                'Accept': '*/*',
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
             },
             body: JSON.stringify({
                 "title": postTitle,
-                "body": postBody,
-                "user_id": 1
+                "body": postBody
             })
         }).then(res => res.json())
             .then(data => {
@@ -32,7 +32,7 @@ export default class CreatePost extends Component {
                     redirect: `/blog/${data.id}`
                 }
             )
-            })
+            }).catch(error => console.log(error))
     }
     render() {
         if (this.state.redirect){
