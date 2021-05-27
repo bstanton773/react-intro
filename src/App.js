@@ -3,6 +3,7 @@ import {Switch, Route} from 'react-router-dom';
 import Navbar from './components/Navbar';
 import About from './views/About';
 import Blog from './views/Blog';
+import Cart from './views/Cart';
 import CreatePost from './views/CreatePost';
 import Home from './views/Home';
 import PostDetail from './views/PostDetail';
@@ -18,14 +19,14 @@ export default class App extends Component {
       name: 'Brian Stanton',
       age: 27,
       racers: [],
-      isLoggedIn: false,
+      isLoggedIn: localStorage.getItem('token') !== null,
       cart: []
     }
   }
 
   addToCart = (product) =>{
     this.setState({
-      cart: this.state.cart.concat(product)
+      cart: [...this.state.cart, product]
     })
   }
 
@@ -35,6 +36,20 @@ export default class App extends Component {
       total += cartList[i].price
     }
     return total.toFixed(2)
+  }
+
+  removeFromCart = (product) =>{
+    let newCart = [...this.state.cart]
+
+    for (let i = 0; i < newCart.length; i++){
+      if (product === newCart[i]){
+        newCart.splice(i, 1)
+        break;
+      }
+    }
+    this.setState({
+      cart: newCart
+    })
   }
 
 
@@ -72,13 +87,20 @@ export default class App extends Component {
     })
   }
 
+  logUserOut = () =>{
+    localStorage.removeItem('token')
+    this.setState({
+      isLoggedIn: false
+    })
+  }
+
 
 
   render() {
-    console.log(this.state)
+    // console.log(this.state)
     return (
       <div>
-        <Navbar isLoggedIn={this.state.isLoggedIn} handleLogin={this.handleLogin} cart={this.state.cart} sumCartProducts={this.sumCartProducts}/>
+        <Navbar isLoggedIn={this.state.isLoggedIn} handleLogin={this.handleLogin} cart={this.state.cart} sumCartProducts={this.sumCartProducts} logUserOut={this.logUserOut}/>
         <main className="container">
           <Switch>
             <Route exact path='/'>
@@ -95,6 +117,7 @@ export default class App extends Component {
             <Route exact path='/update/:id' render={({ match }) => <UpdatePost match={match} />} />
             <Route exact path='/shop' render={() => <Shop addToCart={this.addToCart} />} />
             <Route exact path='/shop/:id' render={({ match }) => <ProductDetail match={match} addToCart={this.addToCart}/>} />
+            <Route exact path='/cart' render={() => <Cart cart={this.state.cart} sumCartProducts={this.sumCartProducts} removeFromCart={this.removeFromCart} />} />
           </Switch>
         </main>
       </div>

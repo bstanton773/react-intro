@@ -28,12 +28,12 @@ export default class Navbar extends Component {
                             <Link className="nav-link" to="/shop">Shop</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/">
+                            <Link className="nav-link" to="/cart">
                                 Cart <i className="fas fa-shopping-cart"></i> {this.props.cart.length} | ${this.props.sumCartProducts(this.props.cart)}
                             </Link>
                         </li>
                     </ul>
-                    {this.props.isLoggedIn ? (<div>Logout</div>) : (
+                    {this.props.isLoggedIn ? (<button className="btn btn-secondary" onClick={this.props.logUserOut}>Logout</button>) : (
                     <form onSubmit={(e) => this.props.handleLogin(e)} className="d-flex">
                         <input className="form-control me-2" type="text" placeholder="Username" name='username' />
                         <input className="form-control me-2" type="password" placeholder="Password" name='password'/>
