@@ -102,6 +102,7 @@ export default class App extends Component {
       <div>
         <Navbar isLoggedIn={this.state.isLoggedIn} handleLogin={this.handleLogin} cart={this.state.cart} sumCartProducts={this.sumCartProducts} logUserOut={this.logUserOut}/>
         <main className="container">
+          <h1>HELLO WORLD!</h1>
           <Switch>
             <Route exact path='/'>
               <Home  name={this.state.name} age={this.state.age} updateName={this.updateName} racers={this.state.racers} handleSubmit={this.handleSubmit}/>
