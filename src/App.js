@@ -6,6 +6,8 @@ import Blog from './views/Blog';
 import CreatePost from './views/CreatePost';
 import Home from './views/Home';
 import PostDetail from './views/PostDetail';
+import ProductDetail from './views/ProductDetail';
+import Shop from './views/Shop';
 import UpdatePost from './views/UpdatePost';
 
 export default class App extends Component {
@@ -87,6 +89,8 @@ export default class App extends Component {
             <Route exact path='/blog/:id' render={({ match }) => <PostDetail match={match} />} />
             <Route exact path='/createpost' render={() => <CreatePost />} />
             <Route exact path='/update/:id' render={({ match }) => <UpdatePost match={match} />} />
+            <Route exact path='/shop' render={() => <Shop />} />
+            <Route exact path='/shop/:id' render={({ match }) => <ProductDetail match={match} />} />
           </Switch>
         </main>
       </div>

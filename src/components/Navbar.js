@@ -24,6 +24,9 @@ export default class Navbar extends Component {
                         <li className="nav-item">
                             <Link className="nav-link" to="/blog">Blog</Link>
                         </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/shop">Shop</Link>
+                        </li>
                     </ul>
                     {this.props.isLoggedIn ? (<div>Logout</div>) : (
                     <form onSubmit={(e) => this.props.handleLogin(e)} className="d-flex">
