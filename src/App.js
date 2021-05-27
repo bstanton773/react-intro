@@ -18,21 +18,25 @@ export default class App extends Component {
       name: 'Brian Stanton',
       age: 27,
       racers: [],
-      isLoggedIn: false
+      isLoggedIn: false,
+      cart: []
     }
-    // console.log('Component is constructed')
   }
 
-  // componentDidMount(){
-  //   // console.log('Component did mount');
-  //   fetch('https://ergast.com/api/f1/2020/1/driverStandings.json')
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       this.setState(
-  //         {racers: data.MRData.StandingsTable.StandingsLists[0].DriverStandings}
-  //       )
-  //     })
-  // }
+  addToCart = (product) =>{
+    this.setState({
+      cart: this.state.cart.concat(product)
+    })
+  }
+
+  sumCartProducts = (cartList) => {
+    let total = 0;
+    for (let i = 0; i < cartList.length; i++){
+      total += cartList[i].price
+    }
+    return total.toFixed(2)
+  }
+
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -74,7 +78,7 @@ export default class App extends Component {
     console.log(this.state)
     return (
       <div>
-        <Navbar isLoggedIn={this.state.isLoggedIn} handleLogin={this.handleLogin}/>
+        <Navbar isLoggedIn={this.state.isLoggedIn} handleLogin={this.handleLogin} cart={this.state.cart} sumCartProducts={this.sumCartProducts}/>
         <main className="container">
           <Switch>
             <Route exact path='/'>
@@ -89,8 +93,8 @@ export default class App extends Component {
             <Route exact path='/blog/:id' render={({ match }) => <PostDetail match={match} />} />
             <Route exact path='/createpost' render={() => <CreatePost />} />
             <Route exact path='/update/:id' render={({ match }) => <UpdatePost match={match} />} />
-            <Route exact path='/shop' render={() => <Shop />} />
-            <Route exact path='/shop/:id' render={({ match }) => <ProductDetail match={match} />} />
+            <Route exact path='/shop' render={() => <Shop addToCart={this.addToCart} />} />
+            <Route exact path='/shop/:id' render={({ match }) => <ProductDetail match={match} addToCart={this.addToCart}/>} />
           </Switch>
         </main>
       </div>

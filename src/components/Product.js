@@ -11,8 +11,8 @@ export default class Product extends Component {
                     <div className="card-body">
                         <h5 className="card-title">{p.name}</h5>
                         <p className="card-text">{p.description}</p>
-                        
-                        <button className="btn btn-primary">Add To Cart</button>
+                
+                        <button onClick={() => this.props.addToCart(p)} className="btn btn-primary">Add To Cart</button>
                         <Link to={`/shop/${p.id}`}>
                             <button className="btn btn-secondary float-end">More Info</button>
                         </Link>

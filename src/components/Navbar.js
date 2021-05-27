@@ -27,6 +27,11 @@ export default class Navbar extends Component {
                         <li className="nav-item">
                             <Link className="nav-link" to="/shop">Shop</Link>
                         </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/">
+                                Cart <i className="fas fa-shopping-cart"></i> {this.props.cart.length} | ${this.props.sumCartProducts(this.props.cart)}
+                            </Link>
+                        </li>
                     </ul>
                     {this.props.isLoggedIn ? (<div>Logout</div>) : (
                     <form onSubmit={(e) => this.props.handleLogin(e)} className="d-flex">

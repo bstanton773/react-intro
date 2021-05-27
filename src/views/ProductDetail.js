@@ -26,11 +26,12 @@ export default class ProductDetail extends Component {
                     <h3 className="card-title">
                        {p.name}
                     </h3>
+                    <small>${p.price}</small>
                     <img className="card-img-top img-fluid" src={p.image} alt="name"/>
                     <p className="card-text">{p.description}</p>
                 </div>
                 <div className="card-footer">
-                    <button className="btn btn-primary">Add to Cart</button>
+                    <button className="btn btn-primary" onClick={() => this.props.addToCart(p)}>Add to Cart</button>
                     <Link to="/shop">
                         <button className="btn btn-secondary float-end">Back to Shop</button>
                     </Link>
