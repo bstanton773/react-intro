@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Switch, Route} from 'react-router-dom';
+import Message from './components/Message';
 import Navbar from './components/Navbar';
 import About from './views/About';
 import Blog from './views/Blog';
@@ -20,8 +21,24 @@ export default class App extends Component {
       age: 27,
       racers: [],
       isLoggedIn: localStorage.getItem('token') !== null,
-      cart: []
+      cart: [],
+      message: null,
+      category: null
     }
+  }
+
+  addMessage = (message, category) => {
+    this.setState({
+      message,
+      category
+    })
+  }
+
+  clearMessage = () =>{
+    this.setState({
+      message: null,
+      category: null
+    })
   }
 
   addToCart = (product) =>{
@@ -81,6 +98,7 @@ export default class App extends Component {
     .then(data => {
       console.log(data)
       localStorage.setItem('token', data.token)
+      this.addMessage('You are now logged in', 'success')
       this.setState({
         isLoggedIn: true
       })
@@ -102,6 +120,7 @@ export default class App extends Component {
       <div>
         <Navbar isLoggedIn={this.state.isLoggedIn} handleLogin={this.handleLogin} cart={this.state.cart} sumCartProducts={this.sumCartProducts} logUserOut={this.logUserOut}/>
         <main className="container">
+          <Message message={this.state.message} category={this.state.category} clearMessage={this.clearMessage}/>
           <Switch>
             <Route exact path='/'>
               <Home  name={this.state.name} age={this.state.age} updateName={this.updateName} racers={this.state.racers} handleSubmit={this.handleSubmit}/>
@@ -114,7 +133,7 @@ export default class App extends Component {
             </Route>
             <Route exact path='/blog/:id' render={({ match }) => <PostDetail match={match} />} />
             <Route exact path='/createpost' render={() => <CreatePost />} />
-            <Route exact path='/update/:id' render={({ match }) => <UpdatePost match={match} />} />
+            <Route exact path='/update/:id' render={({ match }) => <UpdatePost match={match} addMessage={this.addMessage}/>} />
             <Route exact path='/shop' render={() => <Shop addToCart={this.addToCart} />} />
             <Route exact path='/shop/:id' render={({ match }) => <ProductDetail match={match} addToCart={this.addToCart}/>} />
             <Route exact path='/cart' render={() => <Cart cart={this.state.cart} sumCartProducts={this.sumCartProducts} removeFromCart={this.removeFromCart} />} />

@@ -47,11 +47,23 @@ export default class UpdatePost extends Component {
                 'title': postTitle,
                 'body': postBody
             })
-        }).then(res => res.json())
+        }).then(res =>{
+            if (res.status === 401){
+                this.props.addMessage('You are not allowed to update this post', 'danger')
+                this.setState({
+                    redirect: '/blog'
+                })
+                return Promise.reject('You are not authorized to update this post')
+            }
+            return res.json()
+        })
             .then(data => {
                 this.setState({
                     redirect: `/blog/${data.id}`
                 })
+            })
+            .catch(error => {
+                console.error(error)
             })
     }
 
